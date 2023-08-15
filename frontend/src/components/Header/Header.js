@@ -1,6 +1,13 @@
 import React,{useState} from 'react'
 import { Link } from 'react-router-dom';
-
+import {
+    ClerkProvider,
+    SignedIn,
+    SignedOut,
+    UserButton,
+    useUser,
+    RedirectToSignIn,
+  } from "@clerk/clerk-react";
 const Header = () => {
     const [show, setShow] = useState(false);
   return (
@@ -8,6 +15,9 @@ const Header = () => {
             <div className="py-5 md:py-0 container mx-auto px-6 flex items-center justify-between">
                 <div aria-label="Home. logo" role="img">
                     <img className="w-12 md:w-auto" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/centre_aligned_simple-Svg1.svg" alt="logo" />
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
                 </div>
                 <div>
                     <button onClick={() => setShow(!show)} className={`${show ? 'hidden' : ''} sm:block md:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500`}>
