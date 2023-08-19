@@ -1,12 +1,10 @@
 import React,{useState} from 'react'
 import { Link } from 'react-router-dom';
 import {
-    ClerkProvider,
     SignedIn,
-    SignedOut,
     UserButton,
-    useUser,
-    RedirectToSignIn,
+    SignInButton,
+    SignUpButton
   } from "@clerk/clerk-react";
 const Header = () => {
     const [show, setShow] = useState(false);
@@ -54,7 +52,9 @@ const Header = () => {
                         </ul>
                     </div>
                 </div>
-                <button className="focus:outline-none lg:text-lg lg:font-bold focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 hidden md:block bg-transparent transition duration-150 ease-in-out hover:bg-gray-200 rounded border border-indigo-700 text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm">Sign In</button>
+                <SignInButton mode='modal' ><button className="focus:outline-none lg:text-lg lg:font-bold focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 hidden md:block bg-transparent transition duration-150 ease-in-out hover:bg-gray-200 rounded border border-indigo-700 text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm">Sign In</button></SignInButton>
+                {/* <SignUpButton mode='modal' ><button className="focus:outline-none lg:text-lg lg:font-bold focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 hidden md:block bg-transparent transition duration-150 ease-in-out hover:bg-gray-200 rounded border border-indigo-700 text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm">Sign Up</button></SignUpButton> */}
+
             </div>   
     </nav>
   )

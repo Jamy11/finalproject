@@ -9,30 +9,61 @@ import {
   UserButton,
   useUser,
   RedirectToSignIn,
+  SignIn,
+  UserProfile
 } from "@clerk/clerk-react";
-import Mithila from './components/mithila/Mithila';
+import { useEffect } from 'react';
+import axios from 'axios';
+
 
 function App() {
+  const {user,isLoaded} = useUser()
 
+
+
+  useEffect(() => {
+
+      if( user && isLoaded ){
+        const newUserObject = {
+          username:user.username,
+          email:user.primaryEmailAddress.emailAddress,
+          clerkId: user.id,
+          fullName:user.fullName
+        }
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/handeluser`,newUserObject)
+        .then(function (response) {
+          if (response) {
+            console.log(response.data)
+          }
+          else {
+            console.log('Could Not add item')
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+    
+  }, [user])
+  
   return (
     <>
-      {/* <Router>
+      <Router>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/contact' element= {<Contact/>} />
+          <Route path='/UserProfile' element= {<UserProfile/>} />
+
         </Routes>
       </Router>
-      <SignedIn>
+
+      {/* <SignedIn>
          <UserButton />
       </SignedIn>
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut> */}
       
-     <Mithila name={'Jame'}/>
-     {/* <Mithila name={'mithila'}/>
-     <Mithila name={'babu'}/>
-     <Mithila name={'pugni'}/> */}
     </>
 
     
