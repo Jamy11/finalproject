@@ -38,9 +38,8 @@ async function run(){
             const found = cursorResult.some(el => el.email === data.email);
             if (found ){
                 let oldData = cursorResult.find(item => item.email === data.email);
-                delete oldData._id
                 if( JSON.stringify(oldData) === JSON.stringify(data) ){ // same data
-                    res.json(200)
+                    res.json(' Same user')
                 }
                 else{ // updating exsisiting user 
                     try{
@@ -49,9 +48,10 @@ async function run(){
                         const update = { $set: data }; // Use $set to update specific fields
     
                         const result = await vacanciesCollection.updateOne(filter, update);
+                        // res.json(result)
     
                         if (result.modifiedCount === 1) {
-                            res.json( { message: 'Document updated successfully' } );
+                            res.json({ message: 'Document updated successfully' });
                           } else {
                             res.status(404).json({ message: 'Document not found or not updated' });
                           }
