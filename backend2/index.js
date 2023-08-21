@@ -6,6 +6,7 @@ require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 50000;
 const ObjectId = require('mongodb').ObjectId
+const _ = require('lodash');
 
 // middleware
 app.use(cors())
@@ -39,7 +40,16 @@ async function run() {
             if (found) {
                 let oldData = cursorResult.find(item => item.email === data.email);
                 delete oldData._id
-                if (JSON.stringify(oldData) === JSON.stringify(data)) { // same data
+                delete oldData.bio,
+                    delete oldData.city,
+                    delete oldData.country,
+                    delete oldData.phoneNumber,
+                    delete oldData.professionalExperience,
+                    delete oldData.state,
+                    delete oldData.streetAddress,
+                    delete oldData.educationalBackground
+
+                if (_.isEqual(oldData, data) ) { // same data
                     res.json(200)
                 }
                 else { // updating exsisiting user 
@@ -71,29 +81,58 @@ async function run() {
         app.post('/updateuser', async (req, res) => {
             const cursor = vacanciesCollection.find({})
             const cursorResult = await cursor.toArray()
-
             const data = req.body
             const found = cursorResult.some(el => el.email === data.email);
 
             if (found) {
+                let oldData = cursorResult.find(item => item.email === data.email);
+                delete oldData._id
+                delete oldData.username
+                delete oldData.clerkId
+                delete oldData.fullName
+                delete oldData.userType
+                const checkValue = _.isEqual(oldData, data)
 
-                try {
-                    const filter = { email: data.email };
+                if (checkValue) { // same data
+                    res.json(200)
+                }
+                else {
+                    try {
+                        const filter = { email: data.email };
+                        const update = { $set: data }; // Use $set to update specific fields
+                        const result = await vacanciesCollection.updateOne(filter, update);
 
-                    const update = { $set: data }; // Use $set to update specific fields
-
-                    const result = await vacanciesCollection.updateOne(filter, update);
-
-                    if (result.modifiedCount === 1) {
-                        res.json({ message: 'User updated successfully' });
-                    } else {
-                        res.status(404).json({ message: 'User not found or not updated' });
+                        if (result.modifiedCount === 1) {
+                            res.json({ message: 'User updated successfully' });
+                        } else {
+                            res.status(404).json({ message: 'User not found or not updated' });
+                        }
+                    }
+                    catch (error) {
+                        console.error('Error:', error);
+                        res.status(500).json({ error: 'An error occurred' });
                     }
                 }
-                catch (error) {
-                    console.error('Error:', error);
-                    res.status(500).json({ error: 'An error occurred' });
+
+
+            }
+        })
+
+        app.get('/getuserdatafromdb', async (req, res) => {
+            try {
+                const email = req.query.email;
+                const user = await vacanciesCollection.findOne({ email: email });
+
+                if (user) {
+                    res.json(user);
+                } else {
+                    res.status(404).json({ message: 'User not found' });
                 }
+
+            }
+            catch (error) {
+                console.error('Error:', error);
+                res.status(500).json({ error: 'An error occurred' });
             }
         })
 

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import {
     ClerkProvider,
     SignedIn,
@@ -11,34 +11,38 @@ import {
     useClerk
 } from "@clerk/clerk-react";
 import axios from 'axios';
+import useMyUser from '../../../hooks/useMyUser';
 const Profile = () => {
-    
+
     const { user, isLoaded } = useUser()
+    const { mongodbUserData, updateOrCreateUser } = useMyUser()
+
     useEffect(() => {
-  
-      if (user && isLoaded) {
-        const newUserObject = {
-          username: user.username,
-          email: user.primaryEmailAddress.emailAddress,
-          clerkId: user.id,
-          fullName: user.fullName,
-          userType: 'jobSeeker'
+
+        if (user && isLoaded && mongodbUserData) {
+
+            const newUserObject = {
+                username: user.username,
+                email: user.primaryEmailAddress.emailAddress,
+                clerkId: user.id,
+                fullName: user.fullName,
+                userType: 'jobSeeker',
+            }
+            updateOrCreateUser( newUserObject )
         }
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/handeluser`, newUserObject)
-          .then(function (response) {
-            if (response) {
-              console.log(response)
-            }
-            else {
-              console.log('Could Not add item')
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-  
+
     }, [user])
+
+    
+    if ( !isLoaded  && mongodbUserData ) {
+        return (
+            <div>
+                <h1>
+                    Loading
+                </h1>
+            </div>
+        )
+    }
 
     return (
         <>
@@ -61,32 +65,36 @@ const Profile = () => {
                     <div class="mt-6 py-6 border-t border-slate-200 text-center">
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full px-4">
-                                <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Educational Experience</h1>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">{} Add bio</p>
+                                <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">About Me</h1>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4"> { mongodbUserData.bio ? mongodbUserData.bio : 'Add Your Bio' } </p>
                             </div>
                         </div>
                     </div>
                     <div class="mt-6 py-6 border-t border-slate-200 text-center">
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full px-4">
-                            <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Professional Experience</h1>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">{} Add Educational Experience </p>
+                                <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Professional Experience</h1>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">{ mongodbUserData.professionalExperience ? mongodbUserData.professionalExperience : 'Add Your Professional Experience' } </p>
                             </div>
                         </div>
                     </div>
                     <div class="mt-6 py-6 border-t border-slate-200 text-center">
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full px-4">
-                            <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Educational Experience</h1>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">{} Add Educational Experience </p>
+                                <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Educational Background</h1>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">{ mongodbUserData.educationalBackground ? mongodbUserData.educationalBackground : 'Add Your Professional Experience' } </p>
                             </div>
                         </div>
                     </div>
                     <div class="mt-6 py-6 border-t border-slate-200 text-center">
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full px-4">
-                            <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Skills</h1>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">{} Add Educational Experience </p>
+                                <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Other Details</h1>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">Phone Number: { mongodbUserData.phoneNumber ? mongodbUserData.phoneNumber : 'Add Your Phone Number' } </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">Country: { mongodbUserData.country ? mongodbUserData.country : 'Add Your Country' } </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">State: { mongodbUserData.state ? mongodbUserData.state : 'Add Your State' } </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">City: { mongodbUserData.city ? mongodbUserData.city : 'Add Your City' } </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">Street Address: { mongodbUserData.streetAddress ? mongodbUserData.streetAddress : 'Add Your Street Address' } </p>
                             </div>
                         </div>
                     </div>
