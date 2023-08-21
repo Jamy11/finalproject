@@ -1,7 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import NavItem from '../NavItem/NavItem'
 
 const AdminSidebar = () => {
+
+
     return (
         <>
             {/* Sidebar starts */}
@@ -9,7 +12,7 @@ const AdminSidebar = () => {
             <div className="w-64 h-full absolute  sm:relative bg-gray-800 shadow md:h-full flex-col justify-between flex">
                 <div className="px-8" style={{ paddingBottom: '31%', }}>
                     <Link to={'/'} >
-                        <div className="h-16 w-full flex items-center" style={{cursor:'pointer'}}>
+                        <div className="h-16 w-full flex items-center" style={{ cursor: 'pointer' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width={144} height={30} viewBox="0 0 144 30">
                                 <text x="12" y="25" fill="#5F7DF2" style={{ fontSize: '30px' }}> Vacancies</text>
                             </svg>
@@ -17,50 +20,14 @@ const AdminSidebar = () => {
                     </Link>
 
                     <ul className="mt-12">
-                        <li className="flex w-full justify-between text-gray-300 hover:text-gray-500 cursor-pointer items-center mb-6">
-                            <div className="flex items-center">
-                                <span className="text-sm  ml-2">Dashboard</span>
-                            </div>
-                            <div className="py-1 px-3 bg-gray-700 rounded text-gray-500 flex items-center justify-center text-xs">5</div>
-                        </li>
-                        <li className="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6">
-                            <div className="flex items-center">
-
-                                <span className="text-sm  ml-2">Products</span>
-                            </div>
-                            <div className="py-1 px-3 bg-gray-700 rounded text-gray-500 flex items-center justify-center text-xs">8</div>
-                        </li>
-                        <li className="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6">
-                            <div className="flex items-center">
-
-                                <span className="text-sm  ml-2">Performance</span>
-                            </div>
-                        </li>
-                        <li className="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6">
-                            <div className="flex items-center">
-
-                                <span className="text-sm  ml-2">Deliverables</span>
-                            </div>
-                        </li>
-                        <li className="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6">
-                            <div className="flex items-center">
-
-                                <span className="text-sm  ml-2">Invoices</span>
-                            </div>
-                            <div className="py-1 px-3 bg-gray-700 rounded text-gray-500 flex items-center justify-center text-xs">25</div>
-                        </li>
-                        <li className="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6">
-                            <div className="flex items-center">
-
-                                <span className="text-sm  ml-2">Inventory</span>
-                            </div>
-                        </li>
-                        <li className="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center">
-                            <div className="flex items-center">
-
-                                <span className="text-sm  ml-2">Settings</span>
-                            </div>
-                        </li>
+                        <NavItem givenUrl={'/dashboard'} NavItemName={'DashBoard'}/>
+                        <NavItem givenUrl={'/edit-profile'} NavItemName={'Edit Profile'}/>
+                        <NavItem givenUrl={'/view-subscription'} NavItemName={'View Subscription'}/>
+                        <NavItem givenUrl={'/add-subscription'} NavItemName={'Add Subscription'}/>
+                        <NavItem givenUrl={'/view-role'} NavItemName={'View Role'}/>
+                        <NavItem givenUrl={'/add-role'} NavItemName={'Add Role'}/>
+                        <NavItem givenUrl={'/view-user'} NavItemName={'View User'}/>
+                        <NavItem givenUrl={'/view-companies'} NavItemName={'View Companies'}/>
                     </ul>
                     <div className="flex justify-center mt-48 mb-4 w-full">
                         <div className="relative ">

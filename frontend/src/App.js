@@ -19,38 +19,11 @@ import Dashboard from './pages/private/AllUser/Dashboard';
 import Feed from './pages/public/Feed';
 import Companies from './pages/public/Companies';
 import Subscription from './pages/public/Subscription';
+import EditProfile from './pages/private/AllUser/EditProfile';
 
 
 function App() {
-  const { user, isLoaded } = useUser()
 
-
-
-  useEffect(() => {
-
-    if (user && isLoaded) {
-      const newUserObject = {
-        username: user.username,
-        email: user.primaryEmailAddress.emailAddress,
-        clerkId: user.id,
-        fullName: user.fullName,
-        userType: 'jobSeeker'
-      }
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/handeluser`, newUserObject)
-        .then(function (response) {
-          if (response) {
-            console.log(response)
-          }
-          else {
-            console.log('Could Not add item')
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-
-  }, [user])
 
   return (
     <>
@@ -63,12 +36,14 @@ function App() {
           <Route path='/companies' element={<Companies />} />
           <Route path='/subscription' element={<Subscription />} />
 
-          {/* Redirect path if user selcet a path which dont exisit */}
+          {/* Redirect path if user select a path which don't exsist */}
           <Route path='/*' element={<Error404page />} />
 
 
           <Route path='/UserProfile' element={<UserProfile />} />
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/edit-profile' element={<Dashboard />} />
+
 
 
         </Routes>
