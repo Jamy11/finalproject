@@ -15,56 +15,85 @@ app.use(express.json())
 const uri = `mongodb+srv://${process.env.MONGO_DB_USER_NAME}:${process.env.MONGO_DB_PASS}@cluster0.3fsfu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-async function run(){
-    try{
+async function run() {
+    try {
         await client.connect()
         const database = client.db('Vacancies')
         const vacanciesCollection = database.collection('vacanciesCollection')
 
 
 
-        app.get('/handeluser', async (req,res)=>{
+        app.get('/handeluser', async (req, res) => {
             const cursor = vacanciesCollection.find({})
             const result = await cursor.toArray()
-            res.json(result) 
-            
+            res.json(result)
+
         })
 
-        app.post('/handeluser',async (req,res)=>{
+        app.post('/handeluser', async (req, res) => {
             const cursor = vacanciesCollection.find({})
             const cursorResult = await cursor.toArray()
 
             const data = req.body
             const found = cursorResult.some(el => el.email === data.email);
-            if (found ){
+            if (found) {
                 let oldData = cursorResult.find(item => item.email === data.email);
                 delete oldData._id
-                if( JSON.stringify(oldData) === JSON.stringify(data) ){ // same data
+                if (JSON.stringify(oldData) === JSON.stringify(data)) { // same data
                     res.json(200)
                 }
-                else{ // updating exsisiting user 
-                    try{
+                else { // updating exsisiting user 
+                    try {
                         const filter = { email: data.email };
 
                         const update = { $set: data }; // Use $set to update specific fields
-    
+
                         const result = await vacanciesCollection.updateOne(filter, update);
-    
+
                         if (result.modifiedCount === 1) {
-                            res.json( { message: 'Document updated successfully' } );
-                          } else {
+                            res.json({ message: 'Document updated successfully' });
+                        } else {
                             res.status(404).json({ message: 'Document not found or not updated' });
-                          }
+                        }
                     }
-                    catch (error){
+                    catch (error) {
                         console.error('Error:', error);
                         res.status(500).json({ error: 'An error occurred' });
                     }
                 }
             }
-            else{ // creating new data
+            else { // creating new data
                 const result = await vacanciesCollection.insertOne(data)
                 res.json(result)
+            }
+        })
+
+        app.post('/updateuser', async (req, res) => {
+            const cursor = vacanciesCollection.find({})
+            const cursorResult = await cursor.toArray()
+
+            const data = req.body
+            const found = cursorResult.some(el => el.email === data.email);
+
+            if (found) {
+
+                try {
+                    const filter = { email: data.email };
+
+                    const update = { $set: data }; // Use $set to update specific fields
+
+                    const result = await vacanciesCollection.updateOne(filter, update);
+
+                    if (result.modifiedCount === 1) {
+                        res.json({ message: 'User updated successfully' });
+                    } else {
+                        res.status(404).json({ message: 'User not found or not updated' });
+                    }
+                }
+                catch (error) {
+                    console.error('Error:', error);
+                    res.status(500).json({ error: 'An error occurred' });
+                }
             }
         })
 
@@ -74,7 +103,7 @@ async function run(){
         //     const cursor = orderCollection.find({useremail:email})
         //     const result = await cursor.toArray()
         //     res.json(result) 
-            
+
         // })
 
         // app.delete('/my-orders/:id', async (req,res)=>{
@@ -90,7 +119,7 @@ async function run(){
         //     const cursor = orderCollection.find({})
         //     const result = await cursor.toArray()
         //     res.json(result) 
-            
+
         // })
 
         // app.delete('/all-orders/:id', async (req,res)=>{
@@ -116,17 +145,17 @@ async function run(){
         //     res.json(result)
         // })
     }
-    finally{
+    finally {
         // await client.close()
     }
 }
 
 run().catch(console.dir)
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send('Server is running')
 })
 
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
