@@ -43,7 +43,7 @@ const useMyUser = () => {
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/handeluser`, newUserObject)
             .then(function (response) {
                 if (response) {
-                    console.log(response)
+                    // console.log(response)
                 }
                 else {
                     console.log('Could Not add item')

@@ -43,6 +43,12 @@ function App() {
           <Route path='/UserProfile' element={<UserProfile />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/edit-profile' element={<Dashboard />} />
+          <Route path='/view-subscription' element={<Dashboard />} />
+          <Route path='/add-subscription' element={<Dashboard />} />
+          <Route path='/view-role' element={<Dashboard />} />
+          <Route path='/add-role' element={<Dashboard />} />
+          <Route path='/view-user' element={<Dashboard />} />
+          <Route path='/view-companies' element={<Dashboard />} />
 
 
 

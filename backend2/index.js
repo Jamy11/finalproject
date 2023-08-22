@@ -21,6 +21,7 @@ async function run() {
         await client.connect()
         const database = client.db('Vacancies')
         const vacanciesCollection = database.collection('vacanciesCollection')
+        const roleCollection = database.collection('role')
 
 
 
@@ -28,7 +29,6 @@ async function run() {
             const cursor = vacanciesCollection.find({})
             const result = await cursor.toArray()
             res.json(result)
-
         })
 
         app.post('/handeluser', async (req, res) => {
@@ -48,8 +48,9 @@ async function run() {
                     delete oldData.state,
                     delete oldData.streetAddress,
                     delete oldData.educationalBackground
+                delete oldData.userType
 
-                if (_.isEqual(oldData, data) ) { // same data
+                if (_.isEqual(oldData, data)) { // same data
                     res.json(200)
                 }
                 else { // updating exsisiting user 
@@ -73,6 +74,7 @@ async function run() {
                 }
             }
             else { // creating new data
+                data.userType = 'jobSeeker'
                 const result = await vacanciesCollection.insertOne(data)
                 res.json(result)
             }
@@ -136,6 +138,64 @@ async function run() {
             }
         })
 
+        app.get('/view-role', async (req, res) => {
+            const cursor = roleCollection.find({})
+            const result = await cursor.toArray()
+            res.json(result)
+        })
+
+        app.post('/view-role', async (req, res) => {
+            const cursor = roleCollection.find({})
+            const cursorResult = await cursor.toArray()
+            const data = req.body
+            const found = cursorResult.some(el => el.role === data.role);
+
+            if (found) {
+                res.json('Already Added')
+            }
+            else {
+                const result = await roleCollection.insertOne(data)
+                res.json(result)
+            }
+
+        })
+
+        app.delete('/view-role/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const result = await roleCollection.deleteOne(query)
+            res.json(result)
+        })
+
+        app.get('/users', async (req, res) => {
+            const cursor = vacanciesCollection.find({})
+            const result = await cursor.toArray()
+            res.json(result)
+        })
+
+        app.post('/users', async (req, res) => {
+            const id = req.body.id
+            const filter = { email: req.body.email };
+            const data = { userType: req.body.value }
+            const update = { $set: data };
+            const result = await vacanciesCollection.updateOne(filter, update);
+            if (result.modifiedCount === 1) {
+                res.json({ message: 'Document updated successfully' });
+            } else {
+                res.status(404).json({ message: 'Document not found or not updated' });
+            }
+        })
+
+        app.get('/checktype', async (req, res) => {
+            const email = req.query.email;
+            const user = await vacanciesCollection.findOne({ email: email });
+            if (user) {
+                res.json(user.userType);
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        })
         // my orders
         // app.get('/my-orders/:email', async (req,res)=>{
         //     const email = req.params.email

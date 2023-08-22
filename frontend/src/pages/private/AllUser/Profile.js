@@ -26,7 +26,6 @@ const Profile = () => {
                 email: user.primaryEmailAddress.emailAddress,
                 clerkId: user.id,
                 fullName: user.fullName,
-                userType: 'jobSeeker',
             }
             updateOrCreateUser( newUserObject )
         }
