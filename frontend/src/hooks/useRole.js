@@ -43,11 +43,9 @@ const useRole = () => {
                 if (res?.data?.acknowledged) {
                     setRoles( roles.filter( item => item._id !== id) )
                 }
-                else {
-
-                }
             })
     }
+
     useEffect(() => {
         getRole()
     }, [])

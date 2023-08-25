@@ -19,13 +19,18 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect()
-        const database = client.db('Vacancies')
-        const vacanciesCollection = database.collection('vacanciesCollection')
-        const roleCollection = database.collection('role')
+        const database = client.db('Vacancies') // MongoDB Database Name
+
+        const vacanciesCollection = database.collection('vacanciesCollection') // Collect Collection
+        const roleCollection = database.collection('role') // Collect Collection
+        const companyCollection = database.collection('company') // Collect Collection
+        const jobPostCollection = database.collection('jobPost') // Collect Collection
+        const employeeCollection = database.collection('employee') // Collect Collection
+        const categoryCollection = database.collection('category') // Collect Collection
 
 
 
-        app.get('/handeluser', async (req, res) => {
+        app.get('/handeluser', async (req, res) => { // Get All User
             const cursor = vacanciesCollection.find({})
             const result = await cursor.toArray()
             res.json(result)
@@ -173,7 +178,7 @@ async function run() {
             res.json(result)
         })
 
-        app.post('/users', async (req, res) => {
+        app.post('/users', async (req, res) => { // update one
             const id = req.body.id
             const filter = { email: req.body.email };
             const data = { userType: req.body.value }
@@ -196,6 +201,82 @@ async function run() {
             }
 
         })
+
+        app.get('/inacompany', async (req, res) => { // Check if user is in a company or not
+            const email = req.query.email;
+            const cursor1 = await companyCollection.find({ email: email });
+            const result1 = await cursor1.toArray()
+            const cursor2 = await employeeCollection.find({ email: email });
+            const result2 = await cursor2.toArray()
+
+
+            if (result1.length > 0 || result2.length > 0) {
+                res.json(true);
+            } else {
+                res.json(false)
+            }
+        })
+
+        app.post('/company', async (req, res) => { // create company and its first employee
+            const data = req.body
+            const employee = {
+                name: data.fullName,
+                email: data.email,
+                companyName: data.name
+            }
+            delete data.fullName
+            const checkDuplicateValue = await companyCollection.findOne({ name: data.name });
+            // console.log(checkDuplicateValue ? true : false)
+            if ( checkDuplicateValue ){
+                const result = await companyCollection.insertOne(data)
+                const result2 = await employeeCollection.insertOne(employee)
+    
+                if (result.acknowledged && result2.acknowledged) {
+                    res.json(true)
+                }
+            }
+            else{
+                res.json(false)
+            }
+     
+
+        })
+
+        app.get('/companylist', async (req, res) => { // get company list
+            const email = req.query.email;
+            const cursor = await companyCollection.find({ email: email });
+            const result = await cursor.toArray()
+            const companyLstArray = result.map(item => item.name)
+            res.json(companyLstArray)
+        })
+
+        // category apis
+        app.get('/category', async (req, res) => { // get category list
+            const cursor = await categoryCollection.find();
+            const result = await cursor.toArray()
+            res.json(result)
+        })
+
+        app.post('/category', async (req, res) => { // Create category
+            try {
+                const data = req.body
+                const result = await categoryCollection.insertOne(data)
+                res.json(result)
+            }
+            catch (err) {
+                res.json(err)
+            }
+
+        })
+
+        app.delete('/category/:id', async (req, res) => { // delete Category
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const result = await categoryCollection.deleteOne(query)
+            res.json(result)
+        })
+
+
         // my orders
         // app.get('/my-orders/:email', async (req,res)=>{
         //     const email = req.params.email

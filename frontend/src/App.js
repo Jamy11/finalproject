@@ -49,6 +49,12 @@ function App() {
           <Route path='/add-role' element={<Dashboard />} />
           <Route path='/view-user' element={<Dashboard />} />
           <Route path='/view-companies' element={<Dashboard />} />
+          <Route path='/view-category' element={<Dashboard />} />
+          <Route path='/add-category' element={<Dashboard />} />
+
+          {/* Job Seeker */}
+          <Route path='/post-a-job' element={<Dashboard />} />
+          <Route path='/create-a-company' element={<Dashboard />} />
 
 
 

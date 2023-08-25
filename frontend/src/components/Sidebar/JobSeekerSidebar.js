@@ -17,7 +17,9 @@ const JobSeekerSidebar = () => {
                 <ul className="mt-12">
                     <NavItem givenUrl={'/dashboard'} NavItemName={'JobSeeker DashBoard'} />
                     <NavItem givenUrl={'/edit-profile'} NavItemName={'Edit Profile'} />
-
+                    <NavItem givenUrl={'/feed'} NavItemName={'View Jobs'} />
+                    <NavItem givenUrl={'/post-a-job'} NavItemName={'Post A Job'} />
+                    <NavItem givenUrl={'/create-a-company'} NavItemName={'Create A Company'} />
                 </ul>
                 <div className="flex justify-center mt-48 mb-4 w-full">
                     <div className="relative ">

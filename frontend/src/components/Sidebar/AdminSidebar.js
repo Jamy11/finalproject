@@ -22,8 +22,8 @@ const AdminSidebar = () => {
                     <ul className="mt-12">
                         <NavItem givenUrl={'/dashboard'} NavItemName={'DashBoard'}/>
                         <NavItem givenUrl={'/edit-profile'} NavItemName={'Edit Profile'}/>
-                        {/* <NavItem givenUrl={'/view-subscription'} NavItemName={'View Subscription'}/>
-                        <NavItem givenUrl={'/add-subscription'} NavItemName={'Add Subscription'}/> */}
+                        <NavItem givenUrl={'/view-category'} NavItemName={'View Category'}/>
+                        <NavItem givenUrl={'/add-category'} NavItemName={'Add Category'}/>
                         <NavItem givenUrl={'/add-role'} NavItemName={'Add Role'}/>
                         <NavItem givenUrl={'/view-role'} NavItemName={'View Role'}/>
                         <NavItem givenUrl={'/view-user'} NavItemName={'View User'}/>

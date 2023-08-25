@@ -1,5 +1,4 @@
 import { useUser } from '@clerk/clerk-react';
-import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useForm } from "react-hook-form";
 import useMyUser from '../../../hooks/useMyUser';
@@ -8,9 +7,6 @@ const EditProfile = () => {
     const { user, isLoaded } = useUser()
     const { updateUser, mongodbUserData } = useMyUser()
     const { register, handleSubmit, setValue } = useForm();
-
-
-    // setValue('bio', mongodbUserData.bio)
 
     const onSubmit = data => {
         const updateUserData = {email: user.primaryEmailAddress.emailAddress, ...data }
