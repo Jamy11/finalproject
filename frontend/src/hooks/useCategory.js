@@ -1,9 +1,12 @@
+import { useUser } from '@clerk/clerk-react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const useCategory = () => {
     const [allCategory, setAllCategory] = useState([])
+    const [categoryNames, setCategoryNames] = useState([])
+    const { user, isLoaded } = useUser()
     const navigate = useNavigate()
 
     const getAllCategory = () => { // Get All Category
@@ -26,24 +29,38 @@ const useCategory = () => {
         })
     }
 
-    const deleteCategory = (id) => {
+    const deleteCategory = (id) => { // Delete A Category
         axios.delete(`${process.env.REACT_APP_BACKEND_URL}/category/${id}`)
             .then(res => {
                 if (res?.data?.acknowledged) {
                     setAllCategory(allCategory.filter(item => item._id !== id))
                 }
             })
-        }
-
-        useEffect(() => {
-            getAllCategory()
-        }, [])
-
-        return {
-            allCategory,
-            createCategory,
-            deleteCategory
-        }
     }
 
-    export default useCategory
+    const getCategoryNames = (email) => {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/categorylist?${email}`).then(response => {
+            if (response.data) {
+                setCategoryNames(response.data)
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+    useEffect(() => {
+        getAllCategory()
+        if (user && isLoaded) {
+            const email = user.primaryEmailAddress.emailAddress
+            getCategoryNames(email)
+        }
+    }, [])
+
+    return {
+        allCategory,
+        createCategory,
+        deleteCategory,
+        categoryNames
+    }
+}
+
+export default useCategory

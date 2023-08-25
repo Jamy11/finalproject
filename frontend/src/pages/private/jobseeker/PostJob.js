@@ -2,16 +2,20 @@ import React from 'react'
 import { useForm } from "react-hook-form";
 import useCheckCompany from '../../../hooks/useCheckCompany';
 import useCompany from '../../../hooks/useCompany';
+import useCategory from '../../../hooks/useCategory';
+import { useUser } from '@clerk/clerk-react';
 
 const PostJob = () => {
   const { register, handleSubmit, setValue } = useForm();
   const { checkInCompany } = useCheckCompany()
   const { companyList } = useCompany()
+  const { categoryNames } = useCategory()
+  const { user } = useUser()
 
   const onSubmit = data => {
-    // const updateUserData = {email: user.primaryEmailAddress.emailAddress, ...data }
+    const postUserData = { email: user.primaryEmailAddress.emailAddress, username: user.username, fullName: user.fullName, ...data }
 
-    console.log(data)
+    console.log(postUserData)
   };
 
   if (!checkInCompany) {
@@ -46,18 +50,24 @@ const PostJob = () => {
                 </div>
 
                 <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
-                  <label htmlFor="StreetAddress" className="pb-2 text-sm font-bold text-gray-800 ">
-                    Job Category
-                  </label>
-                  <input type="text" {...register("jobCategory")} id="jobCategory" name="jobCategory" className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded bg-transparent text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder />
-                </div>
-
-                <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
                   <label htmlFor="companyName" className="pb-2 text-sm font-bold text-gray-800 ">
                     Company Name
                   </label>
                   <select {...register("companyName")} id="companyName" name="companyName" className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder >
                     {companyList.map(item =>
+                      <>
+                        <option value={item}>{item}</option>
+                      </>)}
+
+                  </select>
+                </div>
+
+                <div className="xl:w-1/4 lg:w-1/2 md:w-1/2 flex flex-col mb-6">
+                  <label htmlFor="categoryName" className="pb-2 text-sm font-bold text-gray-800 ">
+                    Company Name
+                  </label>
+                  <select {...register("categoryName")} id="categoryName" name="categoryName" className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder >
+                    {categoryNames.map(item =>
                       <>
                         <option value={item}>{item}</option>
                       </>)}

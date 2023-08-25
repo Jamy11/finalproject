@@ -24,7 +24,7 @@ async function run() {
         const vacanciesCollection = database.collection('vacanciesCollection') // Collect Collection
         const roleCollection = database.collection('role') // Collect Collection
         const companyCollection = database.collection('company') // Collect Collection
-        const jobPostCollection = database.collection('jobPost') // Collect Collection
+        const jobBoardCollection = database.collection('jobBoard') // Collect Collection
         const employeeCollection = database.collection('employee') // Collect Collection
         const categoryCollection = database.collection('category') // Collect Collection
 
@@ -217,66 +217,92 @@ async function run() {
             }
         })
 
-        app.post('/company', async (req, res) => { // create company and its first employee
-            const data = req.body
-            const employee = {
-                name: data.fullName,
-                email: data.email,
-                companyName: data.name
-            }
-            delete data.fullName
-            const checkDuplicateValue = await companyCollection.findOne({ name: data.name });
-            // console.log(checkDuplicateValue ? true : false)
-            if ( checkDuplicateValue ){
-                const result = await companyCollection.insertOne(data)
-                const result2 = await employeeCollection.insertOne(employee)
-    
-                if (result.acknowledged && result2.acknowledged) {
-                    res.json(true)
+        // Company Apis
+        {
+            app.post('/company', async (req, res) => { // create company and its first employee
+                const data = req.body
+                const employee = {
+                    name: data.fullName,
+                    email: data.email,
+                    companyName: data.name
                 }
-            }
-            else{
-                res.json(false)
-            }
-     
+                delete data.fullName
+                const checkDuplicateValue = await companyCollection.findOne({ name: data.name });
+                // console.log(checkDuplicateValue ? true : false)
+                if (checkDuplicateValue) {
+                    const result = await companyCollection.insertOne(data)
+                    const result2 = await employeeCollection.insertOne(employee)
 
-        })
+                    if (result.acknowledged && result2.acknowledged) {
+                        res.json(true)
+                    }
+                }
+                else {
+                    res.json(false)
+                }
 
-        app.get('/companylist', async (req, res) => { // get company list
-            const email = req.query.email;
-            const cursor = await companyCollection.find({ email: email });
-            const result = await cursor.toArray()
-            const companyLstArray = result.map(item => item.name)
-            res.json(companyLstArray)
-        })
+
+            })
+
+            app.get('/companylist', async (req, res) => { // get company list only name
+                const email = req.query.email;
+                const cursor = await companyCollection.find({ email: email });
+                const result = await cursor.toArray()
+                const companyLstArray = result.map(item => item.name)
+                res.json(companyLstArray)
+            })
+        }
 
         // category apis
-        app.get('/category', async (req, res) => { // get category list
-            const cursor = await categoryCollection.find();
-            const result = await cursor.toArray()
-            res.json(result)
-        })
-
-        app.post('/category', async (req, res) => { // Create category
-            try {
-                const data = req.body
-                const result = await categoryCollection.insertOne(data)
+        {
+            app.get('/category', async (req, res) => { // get all category all field
+                const cursor = await categoryCollection.find();
+                const result = await cursor.toArray()
                 res.json(result)
-            }
-            catch (err) {
-                res.json(err)
-            }
+            })
 
-        })
+            app.post('/category', async (req, res) => { // Create category
+                try {
+                    const data = req.body
+                    const result = await categoryCollection.insertOne(data)
+                    res.json(result)
+                }
+                catch (err) {
+                    res.json(err)
+                }
 
-        app.delete('/category/:id', async (req, res) => { // delete Category
-            const id = req.params.id
-            const query = { _id: ObjectId(id) }
-            const result = await categoryCollection.deleteOne(query)
-            res.json(result)
-        })
+            })
 
+            app.delete('/category/:id', async (req, res) => { // delete Category
+                const id = req.params.id
+                const query = { _id: ObjectId(id) }
+                const result = await categoryCollection.deleteOne(query)
+                res.json(result)
+            })
 
+            app.get('/categorylist', async (req, res) => { // get categoryList list only name
+                const email = req.query.email;
+                const cursor = await categoryCollection.find();
+                const result = await cursor.toArray()
+                const categoryList = result.map(item => item.name)
+                res.json(categoryList)
+            })
+        }
+
+        // Job Board Apis
+        {
+            app.post('/job-board', async (req, res) => { // Create Jobs
+                try {
+                    const data = req.body
+                    const result = await jobBoardCollection.insertOne(data)
+                    res.json(result)
+                }
+                catch (err) {
+                    res.json(err)
+                }
+
+            })
+        }
         // my orders
         // app.get('/my-orders/:email', async (req,res)=>{
         //     const email = req.params.email
