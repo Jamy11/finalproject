@@ -12,14 +12,12 @@ import {
   SignIn,
   UserProfile
 } from "@clerk/clerk-react";
-import { useEffect } from 'react';
-import axios from 'axios';
 import Error404page from './pages/public/Error404page';
 import Dashboard from './pages/private/AllUser/Dashboard';
 import Feed from './pages/public/Feed';
 import Companies from './pages/public/Companies';
 import Subscription from './pages/public/Subscription';
-import EditProfile from './pages/private/AllUser/EditProfile';
+import PostedJob from './pages/private/jobseeker/PostedJob';
 
 
 function App() {
@@ -36,10 +34,10 @@ function App() {
           <Route path='/companies' element={<Companies />} />
           <Route path='/subscription' element={<Subscription />} />
 
-          {/* Redirect path if user select a path which don't exsist */}
-          <Route path='/*' element={<Error404page />} />
 
 
+
+          {/* Admin Path */}
           <Route path='/UserProfile' element={<UserProfile />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/edit-profile' element={<Dashboard />} />
@@ -55,8 +53,12 @@ function App() {
           {/* Job Seeker */}
           <Route path='/post-a-job' element={<Dashboard />} />
           <Route path='/create-a-company' element={<Dashboard />} />
+          <Route path='/posted-jobs/:id' element={<PostedJob />} />
 
 
+
+          {/* Redirect path if user select a path which don't exsist */}
+          <Route path='/*' element={<Error404page />} />
 
         </Routes>
       </Router>

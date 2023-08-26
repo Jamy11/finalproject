@@ -295,10 +295,28 @@ async function run() {
                 try {
                     const data = req.body
                     const result = await jobBoardCollection.insertOne(data)
+                    // console.job(result)
                     res.json(result)
                 }
                 catch (err) {
                     res.json(err)
+                }
+
+            })
+
+            app.get('/postedjob', async (req, res) => { // Find Job by ID
+                const jobId = req.query.id; // Get the job ID from the query parameter
+                try {
+                    const job = await jobBoardCollection.findOne({ _id: ObjectId(jobId) });
+
+                    if (job) {
+                        res.json(job);
+                    } else {
+                        res.status(404).json({ message: 'Job not found' });
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    res.status(500).json({ error: 'An error occurred' });
                 }
 
             })

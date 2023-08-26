@@ -4,6 +4,7 @@ import useCheckCompany from '../../../hooks/useCheckCompany';
 import useCompany from '../../../hooks/useCompany';
 import useCategory from '../../../hooks/useCategory';
 import { useUser } from '@clerk/clerk-react';
+import useJobBoard from '../../../hooks/useJobBoard';
 
 const PostJob = () => {
   const { register, handleSubmit, setValue } = useForm();
@@ -11,11 +12,13 @@ const PostJob = () => {
   const { companyList } = useCompany()
   const { categoryNames } = useCategory()
   const { user } = useUser()
+  const { createJob } = useJobBoard()
 
   const onSubmit = data => {
     const postUserData = { email: user.primaryEmailAddress.emailAddress, username: user.username, fullName: user.fullName, ...data }
 
     console.log(postUserData)
+    createJob(postUserData)
   };
 
   if (!checkInCompany) {
