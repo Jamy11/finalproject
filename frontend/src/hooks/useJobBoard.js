@@ -52,6 +52,16 @@ const useJobBoard = () => {
             console.log(error);
         })
     }
+
+    const deleteJobsByUser = ( id ) => {
+
+        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/jobsbyuser/${id}`)
+        .then(res => {
+            if (res?.data?.acknowledged) {
+                setJobsByUser( jobsByUser.filter( item => item._id !== id) )
+            }
+        })
+    }
     useEffect(() => {
         if (user && isLoaded) {
             const email = user.primaryEmailAddress.emailAddress
@@ -65,7 +75,8 @@ const useJobBoard = () => {
             getPostedJobData,
             postedJobData,
             loadingPostedJob,
-            jobsByUser
+            jobsByUser,
+            deleteJobsByUser
 
         }
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const SeeAllJobsByUserData = ({ item }) => {
+const SeeAllJobsByUserData = ({ item, deleteJobsByUser }) => {
     return (
         <div class="lg:flex items-center justify-center w-full">
             <div tabindex="0" aria-label="card 1" class="focus:outline-none  mb-7 bg-white dark:bg-gray-800  p-6 shadow rounded">
@@ -14,7 +14,7 @@ const SeeAllJobsByUserData = ({ item }) => {
                             <p tabindex="0" class="focus:outline-none text-sm leading-normal pt-2 text-gray-500 dark:text-gray-200 ">{item?.categoryName}</p>
                         </div>
                         <div role="img" aria-label="bookmark">
-                            <button className='bg-transparent hover:bg-red-900 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-900 hover:border-transparent rounded'>
+                            <button className='bg-transparent hover:bg-red-900 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-900 hover:border-transparent rounded' onClick={()=>deleteJobsByUser(item._id)}>
                                 Delete Jobs
                             </button>
                         </div>

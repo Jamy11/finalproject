@@ -332,7 +332,13 @@ async function run() {
                     console.error('Error:', error);
                     res.status(500).json({ error: 'An error occurred' });
                 }
+            })
 
+            app.delete('/jobsbyuser/:id', async (req, res) => { // Find Job by ID
+                const id = req.params.id
+                const query = { _id: ObjectId(id) }
+                const result = await jobBoardCollection.deleteOne(query)
+                res.json(result)
             })
         }
         // my orders

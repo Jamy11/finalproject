@@ -4,14 +4,14 @@ import useJobBoard from '../../../hooks/useJobBoard'
 
 const SeeAllJobsByUser = () => {
 
-    const { jobsByUser } = useJobBoard();
+    const { jobsByUser, deleteJobsByUser } = useJobBoard();
     console.log(jobsByUser)
     return (
         <div aria-label="group of cards" tabindex="0" class="focus:outline-none py-8 w-full">
             {jobsByUser.length === 0 ? <>
                 Please Add Jobs
             </> :
-                jobsByUser.map(item => <SeeAllJobsByUserData item={item} />
+                jobsByUser.map(item => <SeeAllJobsByUserData item={item} deleteJobsByUser={deleteJobsByUser} />
 
                 )}
 
