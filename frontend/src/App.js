@@ -53,6 +53,7 @@ function App() {
           {/* Job Seeker */}
           <Route path='/post-a-job' element={<Dashboard />} />
           <Route path='/create-a-company' element={<Dashboard />} />
+          <Route path='/see-all-jobs' element={<Dashboard />} />
           <Route path='/posted-jobs/:id' element={<PostedJob />} />
 
 

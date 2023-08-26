@@ -20,6 +20,7 @@ const JobSeekerSidebar = () => {
                     <NavItem givenUrl={'/feed'} NavItemName={'View Jobs'} />
                     <NavItem givenUrl={'/post-a-job'} NavItemName={'Post A Job'} />
                     <NavItem givenUrl={'/create-a-company'} NavItemName={'Create A Company'} />
+                    <NavItem givenUrl={'/see-all-jobs'} NavItemName={'See All Jobs by Current user'} />
                 </ul>
                 <div className="flex justify-center mt-48 mb-4 w-full">
                     <div className="relative ">

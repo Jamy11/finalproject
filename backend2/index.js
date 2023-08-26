@@ -320,6 +320,20 @@ async function run() {
                 }
 
             })
+
+            app.get('/jobsbyuser', async (req, res) => { // Find Job by ID
+                const email = req.query.email; // Get the job ID from the query parameter
+                try {
+                    const job = await jobBoardCollection.find({ email: email });
+                    const result = await job.toArray()
+                    
+                    res.json(result)
+                } catch (error) {
+                    console.error('Error:', error);
+                    res.status(500).json({ error: 'An error occurred' });
+                }
+
+            })
         }
         // my orders
         // app.get('/my-orders/:email', async (req,res)=>{
