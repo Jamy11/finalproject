@@ -16,8 +16,6 @@ const PostJob = () => {
 
   const onSubmit = data => {
     const postUserData = { email: user.primaryEmailAddress.emailAddress, username: user.username, fullName: user.fullName, ...data }
-
-    console.log(postUserData)
     createJob(postUserData)
   };
 

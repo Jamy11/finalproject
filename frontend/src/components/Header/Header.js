@@ -48,9 +48,6 @@ const Header = () => {
                                 <Link to={'/companies'}>Explore Companies</Link>
                             </li>
                             <li className="text-gray-700 hover:text-gray-900 cursor-pointer text-base lg:text-lg pt-10 md:pt-0 md:ml-5 lg:ml-10">
-                                <Link to={'/subscription'}>Subscription</Link>
-                            </li>
-                            <li className="text-gray-700 hover:text-gray-900 cursor-pointer text-base lg:text-lg pt-10 md:pt-0 md:ml-5 lg:ml-10">
                                 <Link to={'/contact'}>Contact</Link>
                             </li>
                         </ul>

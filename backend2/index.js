@@ -27,6 +27,7 @@ async function run() {
         const jobBoardCollection = database.collection('jobBoard') // Collect Collection
         const employeeCollection = database.collection('employee') // Collect Collection
         const categoryCollection = database.collection('category') // Collect Collection
+        const jobApplicationCollection = database.collection('jobApplication') // Collect Collection
 
 
 
@@ -321,12 +322,12 @@ async function run() {
 
             })
 
-            app.get('/jobsbyuser', async (req, res) => { // Find Job by ID
+            app.get('/jobsbyuser', async (req, res) => { // Find Job by email
                 const email = req.query.email; // Get the job ID from the query parameter
                 try {
                     const job = await jobBoardCollection.find({ email: email });
                     const result = await job.toArray()
-                    
+
                     res.json(result)
                 } catch (error) {
                     console.error('Error:', error);
@@ -334,60 +335,58 @@ async function run() {
                 }
             })
 
-            app.delete('/jobsbyuser/:id', async (req, res) => { // Find Job by ID
+            app.delete('/jobsbyuser/:id', async (req, res) => { // delete job by id
                 const id = req.params.id
                 const query = { _id: ObjectId(id) }
                 const result = await jobBoardCollection.deleteOne(query)
                 res.json(result)
             })
+
+            app.get('/feeds', async (req, res) => { // get All Jobs
+                const cursor = await jobBoardCollection.find()
+                const result = await cursor.toArray()
+                res.json(result)
+            })
         }
-        // my orders
-        // app.get('/my-orders/:email', async (req,res)=>{
-        //     const email = req.params.email
-        //     const cursor = orderCollection.find({useremail:email})
-        //     const result = await cursor.toArray()
-        //     res.json(result) 
 
-        // })
+        { // job application
+            app.post('/job-application', async (req, res) => { // Create Jobs
+                try {
+                    const data = req.body
+                    const result = await jobApplicationCollection.insertOne(data)
+                    // console.job(result)
+                    res.json(result)
+                }
+                catch (err) {
+                    res.json(err)
+                }
+            })
 
-        // app.delete('/my-orders/:id', async (req,res)=>{
-        //     const id = req.params.id
-        //     const query = {_id : ObjectId(id)}
-        //     const result = await orderCollection.deleteOne(query)
-        //     res.json(result)
-        // })
+            app.get('/job-application', async (req, res) => { // Find Job by ID
+                const jobId = req.query.jobId; // Get the job ID from the query parameter
+                const userId = req.query.userId; // Get the job ID from the query parameter
 
-        // // all orders
+                const job = await jobApplicationCollection.findOne({ jobId: jobId, userId: userId });
 
-        // app.get('/all-orders', async (req,res)=>{
-        //     const cursor = orderCollection.find({})
-        //     const result = await cursor.toArray()
-        //     res.json(result) 
-
-        // })
-
-        // app.delete('/all-orders/:id', async (req,res)=>{
-        //     const id = req.params.id
-        //     const query = {_id : ObjectId(id)}
-        //     const result = await orderCollection.deleteOne(query)
-        //     res.json(result)
-        // })
+                if (job) {
+                    res.json(false);
+                } else {
+                    res.json(true);
+                }
 
 
-        // // order service
+            })
 
-        // app.post('/service/order',async (req,res)=>{
-        //     const bookedItem = req.body
-        //     const result = await orderCollection.insertOne(bookedItem)
-        //     res.json(result)
-        // })
+            app.get('/job-application-count', async (req, res) => { // Find Job by ID
+                const jobId = req.query.jobId; // Get the job ID from the query parameter
 
-        // // adding service
-        // app.post('/service/add',async (req,res)=>{
-        //     const data = req.body
-        //     const result = await servicesCollection.insertOne(data)
-        //     res.json(result)
-        // })
+                const job = await jobApplicationCollection.find({ jobId: jobId }).toArray();
+                res.json(job.length)
+            })
+
+        }
+
+
     }
     finally {
         // await client.close()

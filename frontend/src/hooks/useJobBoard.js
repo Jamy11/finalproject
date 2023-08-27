@@ -10,6 +10,9 @@ const useJobBoard = () => {
     const [loadingPostedJob, setLoadingPostedJob] = useState(false)
     const [jobsByUser, setJobsByUser] = useState([])
 
+    const [allJobData, setAllJobData] = useState([])
+    const [loadingAllJob, setLoadingAllJob] = useState(false)
+
     const createJob = (data) => { //Create company
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/job-board`, data).then(response => {
             if (response.data) {
@@ -62,7 +65,23 @@ const useJobBoard = () => {
             }
         })
     }
+
+    const getAllJobs = () => {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/feeds`).then(response => {
+            if (response.data) {
+                setAllJobData(response.data)
+                setLoadingAllJob(true)
+            }
+            else {
+                alert('Name Is Already Taken')
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+    
     useEffect(() => {
+        getAllJobs()
         if (user && isLoaded) {
             const email = user.primaryEmailAddress.emailAddress
             getJobsByUser(email)
@@ -76,7 +95,10 @@ const useJobBoard = () => {
             postedJobData,
             loadingPostedJob,
             jobsByUser,
-            deleteJobsByUser
+            deleteJobsByUser,
+
+            allJobData,
+            loadingAllJob
 
         }
     )

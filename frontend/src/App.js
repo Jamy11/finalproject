@@ -14,10 +14,11 @@ import {
 } from "@clerk/clerk-react";
 import Error404page from './pages/public/Error404page';
 import Dashboard from './pages/private/AllUser/Dashboard';
-import Feed from './pages/public/Feed';
+import Feeds from './pages/public/Feeds';
 import Companies from './pages/public/Companies';
 import Subscription from './pages/public/Subscription';
 import PostedJob from './pages/private/jobseeker/PostedJob';
+import SingleJobView from './pages/public/SingleJobView';
 
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
           {/* Public Path  */}
           <Route path='/' element={<Home />} />
           <Route path='/contact' element={<Contact />} />
-          <Route path='/feed' element={<Feed />} />
+          <Route path='/feed' element={<Feeds />} />
+          <Route path='/feed/:id' element={<SingleJobView />} />
           <Route path='/companies' element={<Companies />} />
           <Route path='/subscription' element={<Subscription />} />
 

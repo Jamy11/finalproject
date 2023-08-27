@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react'
-import useJobApplication from '../../hooks/useJobApplication'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-
-const SeeAllJobsByUserData = ({ item, deleteJobsByUser }) => {
-    const { count, getJobApplicationCount } = useJobApplication()
-    // console.log(count)
-    useEffect(() => {
-        getJobApplicationCount(item._id)
-    }, [])
-
+const JobView = ({ item }) => {
+    const navigate = useNavigate()
+    const goTo = (id)=>{
+        return navigate(`/feed/${id}`)
+    }
     return (
-        <div class="lg:flex items-center justify-center w-full">
-            <div tabindex="0" aria-label="card 1" class="focus:outline-none  mb-7 bg-white dark:bg-gray-800  p-6 shadow rounded min-w-[90%]" >
+        <div class="lg:flex items-center justify-center w-full" onClick={()=>goTo(item._id)} style={{cursor:'pointer'}}>
+            <div tabindex="0" aria-label="card 1" class="focus:outline-none  m-7 mx-7 bg-white dark:bg-gray-800  p-6 shadow rounded min-w-[90%]">
                 <div class="flex items-center border-b border-gray-200 dark:border-gray-700  pb-6">
                     <img src="https://cdn.tuk.dev/assets/components/misc/doge-coin.png" alt="coin avatar" class="w-12 h-12 rounded-full" />
                     <div class="flex items-start justify-between w-full">
@@ -19,12 +16,6 @@ const SeeAllJobsByUserData = ({ item, deleteJobsByUser }) => {
                             <p tabindex="0" class="focus:outline-none text-xl font-medium leading-10 text-gray-800 dark:text-white ">{item?.companyName}</p>
                             <p tabindex="0" class="focus:outline-none text-xl font-medium leading-5 text-gray-800 dark:text-white ">{item?.jobTitle}</p>
                             <p tabindex="0" class="focus:outline-none text-sm leading-normal pt-2 text-gray-500 dark:text-gray-200 ">{item?.categoryName}</p>
-                            <p tabindex="0" class="focus:outline-none text-sm leading-normal pt-2 text-gray-500 dark:text-gray-200 ">Applied : {count}</p>
-                        </div>
-                        <div role="img" aria-label="bookmark">
-                            <button className='bg-transparent hover:bg-red-900 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-900 hover:border-transparent rounded' onClick={() => deleteJobsByUser(item._id)}>
-                                Delete Jobs
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -41,4 +32,4 @@ const SeeAllJobsByUserData = ({ item, deleteJobsByUser }) => {
     )
 }
 
-export default SeeAllJobsByUserData
+export default JobView
