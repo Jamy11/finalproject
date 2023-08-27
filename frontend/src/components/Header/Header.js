@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import {
-    SignedIn,
-    UserButton,
     SignInButton,
-    SignUpButton,
-    useClerk
+    useClerk,
+    useUser
 } from "@clerk/clerk-react";
 const Header = () => {
-    const { signOut, user } = useClerk()
+    const { signOut } = useClerk()
+    const { user } = useUser()
     const [show, setShow] = useState(false);
+
     return (
         <nav className="w-full border-b">
             <div className="py-5 md:py-0 container mx-auto px-6 flex items-center justify-between">
