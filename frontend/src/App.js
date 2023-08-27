@@ -17,7 +17,7 @@ import Dashboard from './pages/private/AllUser/Dashboard';
 import Feeds from './pages/public/Feeds';
 import Companies from './pages/public/Companies';
 import Subscription from './pages/public/Subscription';
-import PostedJob from './pages/private/jobseeker/PostedJob';
+import PostedJob from './pages/private/recruter/PostedJob';
 import SingleJobView from './pages/public/SingleJobView';
 
 

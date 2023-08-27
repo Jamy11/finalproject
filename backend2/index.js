@@ -230,7 +230,7 @@ async function run() {
                 delete data.fullName
                 const checkDuplicateValue = await companyCollection.findOne({ name: data.name });
                 // console.log(checkDuplicateValue ? true : false)
-                if (checkDuplicateValue) {
+                if ( !checkDuplicateValue) {
                     const result = await companyCollection.insertOne(data)
                     const result2 = await employeeCollection.insertOne(employee)
 

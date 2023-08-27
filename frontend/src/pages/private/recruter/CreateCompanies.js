@@ -11,7 +11,6 @@ const CreateCompanies = () => {
   const onSubmit = data => {
     const updateCompanyData = {email: user.primaryEmailAddress.emailAddress, fullName : user.fullName, ...data }
     CreateCompany(updateCompanyData)
-    // console.log(data)
   };
   return (
     <div >

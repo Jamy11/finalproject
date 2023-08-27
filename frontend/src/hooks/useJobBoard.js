@@ -21,7 +21,7 @@ const useJobBoard = () => {
                 return navigate(`/posted-jobs/${response.data.insertedId}`)
             }
             else {
-                alert('Name Is Already Taken')
+
             }
         }).catch(error => {
             console.log(error);
@@ -35,7 +35,7 @@ const useJobBoard = () => {
                 setLoadingPostedJob(true)
             }
             else {
-                alert('Name Is Already Taken')
+
             }
         }).catch(error => {
             console.log(error);
@@ -49,7 +49,7 @@ const useJobBoard = () => {
                 setJobsByUser(response.data)
             }
             else {
-                alert('Name Is Already Taken')
+
             }
         }).catch(error => {
             console.log(error);
@@ -73,7 +73,7 @@ const useJobBoard = () => {
                 setLoadingAllJob(true)
             }
             else {
-                alert('Name Is Already Taken')
+
             }
         }).catch(error => {
             console.log(error);
