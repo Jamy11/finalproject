@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserTableRow = ({ item, makeAdmin }) => {
+const UserTableRow = ({ item, roleChange }) => {
     return (
         <>
             <tr class="bg-gray-100 border-b">
@@ -16,13 +16,34 @@ const UserTableRow = ({ item, makeAdmin }) => {
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     {item.userType === 'jobSeeker' ?
-                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => makeAdmin(item.email, 'admin')}>
-                            Make Admin
-                        </button>
+                        <>
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => roleChange(item.email, 'admin')}>
+                                Make Admin
+                            </button>
+                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => roleChange(item.email, 'recruter')}>
+                                Make Recruter
+                            </button>
+                        </>
                         :
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => makeAdmin( item.email, 'jobSeeker')}>
-                            Make JobSeeker
-                        </button>
+                        item.userType === 'admin' ?
+                            <>
+                                <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => roleChange(item.email, 'jobSeeker')}>
+                                    Make JobSeeker
+                                </button>
+                                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => roleChange(item.email, 'recruter')}>
+                                    Make Recruter
+                                </button>
+                            </>
+
+                            :
+                            <>
+                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => roleChange(item.email, 'admin')}>
+                                    Make Admin
+                                </button>
+                                <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => roleChange(item.email, 'jobSeeker')}>
+                                    Make JobSeeker
+                                </button>
+                            </>
                     }
 
                 </td>

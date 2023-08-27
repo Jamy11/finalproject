@@ -6,7 +6,7 @@ const useAllUser = () => {
     const [userList, setUserList] = useState([])
     let navigate = useNavigate();
 
-    const makeAdmin = (email, value) => {
+    const roleChange = (email, value) => {
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/users`, { email, value })
             .then(function (response) {
                 if (response) {
@@ -50,7 +50,7 @@ const useAllUser = () => {
     return (
         {
             getAllUser,
-            makeAdmin,
+            roleChange,
             userList
 
         }

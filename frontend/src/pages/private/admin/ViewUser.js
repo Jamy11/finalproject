@@ -3,7 +3,7 @@ import useAllUser from '../../../hooks/useAllUser'
 import UserTableRow from '../../../components/AdminComponents/UserTableRow'
 
 const ViewUser = () => {
-  const { userList, makeAdmin } = useAllUser()
+  const { userList, roleChange } = useAllUser()
 
   return (
     <div class="flex flex-col">
@@ -39,7 +39,7 @@ const ViewUser = () => {
                                             Please Add Data
                                         </h1>
                                     </>
-                                    : userList.map( item => <UserTableRow item={item} makeAdmin={makeAdmin}/>)}
+                                    : userList.map( item => <UserTableRow item={item} roleChange={roleChange}/>)}
 
                             </tbody>
                         </table>
