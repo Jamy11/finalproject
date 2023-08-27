@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react'
 import useJobApplication from '../../hooks/useJobApplication'
+import { useNavigate } from 'react-router-dom'
 
 
 const SeeAllJobsByUserData = ({ item, deleteJobsByUser }) => {
     const { count, getJobApplicationCount } = useJobApplication()
-    // console.log(count)
+    const navigate = useNavigate()
+
+    const goTo = () =>{
+        return navigate(`/see-applied-person/${item._id}`)
+    }
+
     useEffect(() => {
         getJobApplicationCount(item._id)
     }, [])
@@ -19,7 +25,7 @@ const SeeAllJobsByUserData = ({ item, deleteJobsByUser }) => {
                             <p tabindex="0" class="focus:outline-none text-xl font-medium leading-10 text-gray-800 dark:text-white ">{item?.companyName}</p>
                             <p tabindex="0" class="focus:outline-none text-xl font-medium leading-5 text-gray-800 dark:text-white ">{item?.jobTitle}</p>
                             <p tabindex="0" class="focus:outline-none text-sm leading-normal pt-2 text-gray-500 dark:text-gray-200 ">{item?.categoryName}</p>
-                            <p tabindex="0" class="focus:outline-none text-sm leading-normal pt-2 text-gray-500 dark:text-gray-200 ">Applied : {count}</p>
+                            <p tabindex="0" class="focus:outline-none text-sm leading-normal pt-2 text-gray-500 dark:text-gray-200 " onClick={goTo} style={{cursor:'pointer'}}>Applied : {count}</p>
                         </div>
                         <div role="img" aria-label="bookmark">
                             <button className='bg-transparent hover:bg-red-900 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-900 hover:border-transparent rounded' onClick={() => deleteJobsByUser(item._id)}>

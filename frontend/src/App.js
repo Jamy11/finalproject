@@ -57,6 +57,7 @@ function App() {
           <Route path='/create-a-company' element={<Dashboard />} />
           <Route path='/see-all-jobs' element={<Dashboard />} />
           <Route path='/posted-jobs/:id' element={<PostedJob />} />
+          <Route path='/see-applied-person/:id' element={<Dashboard />} />
 
 
 

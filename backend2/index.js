@@ -384,9 +384,15 @@ async function run() {
                 res.json(job.length)
             })
 
+            app.get('/applied-people-list', async (req, res) => { // Find Job by ID
+                const jobId = req.query.jobId; // Get the job ID from the query parameter
+
+                const job = await jobApplicationCollection.find({ jobId: jobId }).toArray();
+                const userIds = job.map(item => ObjectId(item.userId));
+                const users = await vacanciesCollection.find({ _id: { $in: userIds } }).toArray();
+                res.json(users)
+            })
         }
-
-
     }
     finally {
         // await client.close()
