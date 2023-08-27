@@ -42,18 +42,20 @@ async function run() {
             const cursorResult = await cursor.toArray()
 
             const data = req.body
-            const found = cursorResult.some(el => el.email === data.email);
-            if (found) {
+            // const found =await cursorResult.some(el => el.email === data.email);
+            const found =await vacanciesCollection.findOne({email: data.email});
+            // console.log(found)
+            if ( await found) {
                 let oldData = cursorResult.find(item => item.email === data.email);
                 delete oldData._id
                 delete oldData.bio,
-                    delete oldData.city,
-                    delete oldData.country,
-                    delete oldData.phoneNumber,
-                    delete oldData.professionalExperience,
-                    delete oldData.state,
-                    delete oldData.streetAddress,
-                    delete oldData.educationalBackground
+                delete oldData.city,
+                delete oldData.country,
+                delete oldData.phoneNumber,
+                delete oldData.professionalExperience,
+                delete oldData.state,
+                delete oldData.streetAddress,
+                delete oldData.educationalBackground
                 delete oldData.userType
 
                 if (_.isEqual(oldData, data)) { // same data

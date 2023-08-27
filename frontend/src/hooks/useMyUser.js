@@ -61,7 +61,7 @@ const useMyUser = () => {
             getUserData(email)
 
         }
-    }, [user])
+    }, [user,isLoaded])
 
     return (
         {

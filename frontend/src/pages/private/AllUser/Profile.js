@@ -1,39 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import {
-    ClerkProvider,
-    SignedIn,
-    SignedOut,
     UserButton,
     useUser,
-    RedirectToSignIn,
-    SignIn,
-    UserProfile,
-    useClerk
 } from "@clerk/clerk-react";
-import axios from 'axios';
+import _ from 'lodash';
 import useMyUser from '../../../hooks/useMyUser';
+import useUserType from '../../../hooks/useUserType'
+
+
 const Profile = () => {
 
     const { user, isLoaded } = useUser()
     const { mongodbUserData, updateOrCreateUser } = useMyUser()
 
+    const throttledUpdateOrCreateUser = useCallback(
+        _.throttle(updateOrCreateUser, 1000), // Throttle to 1 second
+        []
+    );
+
     useEffect(() => {
-
         if (user && isLoaded && mongodbUserData) {
-
             const newUserObject = {
                 username: user.username,
                 email: user.primaryEmailAddress.emailAddress,
                 clerkId: user.id,
                 fullName: user.fullName,
-            }
-            updateOrCreateUser( newUserObject )
+            };
+            throttledUpdateOrCreateUser(newUserObject);
         }
+    }, [user, isLoaded, mongodbUserData, throttledUpdateOrCreateUser]);
 
-    }, [user])
 
-    
-    if ( !isLoaded  && mongodbUserData ) {
+    if (!isLoaded && mongodbUserData) {
         return (
             <div>
                 <h1>
@@ -65,7 +63,7 @@ const Profile = () => {
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full px-4">
                                 <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">About Me</h1>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4"> { mongodbUserData.bio ? mongodbUserData.bio : 'Add Your Bio' } </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4"> {mongodbUserData.bio ? mongodbUserData.bio : 'Add Your Bio'} </p>
                             </div>
                         </div>
                     </div>
@@ -73,7 +71,7 @@ const Profile = () => {
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full px-4">
                                 <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Professional Experience</h1>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">{ mongodbUserData.professionalExperience ? mongodbUserData.professionalExperience : 'Add Your Professional Experience' } </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">{mongodbUserData.professionalExperience ? mongodbUserData.professionalExperience : 'Add Your Professional Experience'} </p>
                             </div>
                         </div>
                     </div>
@@ -81,7 +79,7 @@ const Profile = () => {
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full px-4">
                                 <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Educational Background</h1>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">{ mongodbUserData.educationalBackground ? mongodbUserData.educationalBackground : 'Add Your Professional Experience' } </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">{mongodbUserData.educationalBackground ? mongodbUserData.educationalBackground : 'Add Your Professional Experience'} </p>
                             </div>
                         </div>
                     </div>
@@ -89,11 +87,11 @@ const Profile = () => {
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full px-4">
                                 <h1 class="text-2xl text-slate-700 font-bold leading-normal mb-1">Other Details</h1>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">Phone Number: { mongodbUserData.phoneNumber ? mongodbUserData.phoneNumber : 'Add Your Phone Number' } </p>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">Country: { mongodbUserData.country ? mongodbUserData.country : 'Add Your Country' } </p>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">State: { mongodbUserData.state ? mongodbUserData.state : 'Add Your State' } </p>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">City: { mongodbUserData.city ? mongodbUserData.city : 'Add Your City' } </p>
-                                <p class="font-light leading-relaxed text-slate-600 mb-4">Street Address: { mongodbUserData.streetAddress ? mongodbUserData.streetAddress : 'Add Your Street Address' } </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">Phone Number: {mongodbUserData.phoneNumber ? mongodbUserData.phoneNumber : 'Add Your Phone Number'} </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">Country: {mongodbUserData.country ? mongodbUserData.country : 'Add Your Country'} </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">State: {mongodbUserData.state ? mongodbUserData.state : 'Add Your State'} </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">City: {mongodbUserData.city ? mongodbUserData.city : 'Add Your City'} </p>
+                                <p class="font-light leading-relaxed text-slate-600 mb-4">Street Address: {mongodbUserData.streetAddress ? mongodbUserData.streetAddress : 'Add Your Street Address'} </p>
                             </div>
                         </div>
                     </div>
