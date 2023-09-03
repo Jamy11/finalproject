@@ -33,7 +33,7 @@ const CreateCompanies = () => {
                   <label htmlFor="companyName" className="pb-2 text-sm font-bold text-gray-800 ">
                   Company Name
                   </label>
-                  <input type="text" {...register("name")} id="name" name="name" className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder />
+                  <input type="text" {...register("name", { required: true })} id="name" name="name" className="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm bg-transparent rounded text-sm focus:outline-none focus:border-indigo-700 placeholder-gray-500 text-gray-500 dark:text-gray-400" placeholder />
                 </div>
                 <div className="mx-auto">
                   <div className="xl:w-9/12 w-11/12 mx-auto xl:mx-0">
@@ -41,7 +41,7 @@ const CreateCompanies = () => {
                       <label htmlFor="about" className="pb-2 text-sm font-bold text-gray-800 ">
                         Company Details
                       </label>
-                      <textarea {...register('companyDetails')} id="companyDetails" name="companyDetails" className="bg-transparent border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none focus:border-indigo-700 resize-none placeholder-gray-500 text-gray-500 dark:text-gray-400" rows={5} />
+                      <textarea {...register('companyDetails', { required: true })} id="companyDetails" name="companyDetails" className="bg-transparent border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none focus:border-indigo-700 resize-none placeholder-gray-500 text-gray-500 dark:text-gray-400" rows={5} />
                       <p className="w-full text-right text-xs pt-1 text-gray-500 dark:text-gray-400">Character Limit: 200</p>
                     </div>
                   </div>
