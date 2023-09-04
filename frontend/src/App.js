@@ -3,13 +3,8 @@ import Home from './pages/public/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Contact from './pages/public/Contact';
 import {
-  ClerkProvider,
   SignedIn,
   SignedOut,
-  UserButton,
-  useUser,
-  RedirectToSignIn,
-  SignIn,
   UserProfile
 } from "@clerk/clerk-react";
 import Error404page from './pages/public/Error404page';
@@ -19,7 +14,6 @@ import Companies from './pages/public/Companies';
 import Subscription from './pages/public/Subscription';
 import PostedJob from './pages/private/recruter/PostedJob';
 import SingleJobView from './pages/public/SingleJobView';
-
 
 function App() {
 
@@ -40,24 +34,131 @@ function App() {
 
 
           {/* Admin Path */}
-          <Route path='/UserProfile' element={<UserProfile />} />
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/edit-profile' element={<Dashboard />} />
-          <Route path='/view-subscription' element={<Dashboard />} />
-          <Route path='/add-subscription' element={<Dashboard />} />
-          <Route path='/view-role' element={<Dashboard />} />
-          <Route path='/add-role' element={<Dashboard />} />
-          <Route path='/view-user' element={<Dashboard />} />
-          <Route path='/view-companies' element={<Dashboard />} />
-          <Route path='/view-category' element={<Dashboard />} />
-          <Route path='/add-category' element={<Dashboard />} />
+          <Route path='/UserProfile' element={
+            <>
+              <SignedIn>
+                <UserProfile />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </> } />
+
+          <Route path='/dashboard' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/edit-profile' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/view-subscription' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/add-subscription' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/view-role' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/add-role' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/view-user' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/view-companies' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/view-category' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/add-category' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
 
           {/* Job Seeker */}
-          <Route path='/post-a-job' element={<Dashboard />} />
-          <Route path='/create-a-company' element={<Dashboard />} />
-          <Route path='/see-all-jobs' element={<Dashboard />} />
+          <Route path='/post-a-job' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/create-a-company' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
+          <Route path='/see-all-jobs' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
           <Route path='/posted-jobs/:id' element={<PostedJob />} />
-          <Route path='/see-applied-person/:id' element={<Dashboard />} />
+          <Route path='/see-applied-person/:id' element={ <>
+              <SignedIn>
+                <Dashboard />
+              </SignedIn>
+              <SignedOut>
+                <Home />
+              </SignedOut>
+            </>} />
 
 
 
