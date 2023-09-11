@@ -33,8 +33,6 @@ const Home = () => {
                 </div>
             </dh-component>
 
-            {/* /Partners */}
-
             <Partners />
 
             {/* Footers  */}
