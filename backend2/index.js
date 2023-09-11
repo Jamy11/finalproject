@@ -3,14 +3,29 @@ const { CommandStartedEvent } = require('mongodb');
 const { MongoClient } = require('mongodb');
 const cors = require('cors')
 require('dotenv').config()
-const app = express()
 const port = process.env.PORT || 50000;
 const ObjectId = require('mongodb').ObjectId
 const _ = require('lodash');
 
+// scoket io
+const http = require('http')
+const socketio = require('socket.io')
+
+
+
+const app = express()
+// socket io
+const server = http.createServer(app)
+const io = socketio(server)
+const corsOptions = {
+    origin: 'http://localhost:3000', // Replace with the actual origin of your frontend
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Allow cookies to be sent with the request if applicable
+  };
 // middleware
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
+
 
 
 const uri = `mongodb+srv://${process.env.MONGO_DB_USER_NAME}:${process.env.MONGO_DB_PASS}@cluster0.3fsfu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -407,6 +422,10 @@ app.get('/', (req, res) => {
     res.send('Server is running')
 })
 
-app.listen(port, () => {
+
+io.on('connection', socket=>{
+    console.log('Connected to a new WS')
+})
+server.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })

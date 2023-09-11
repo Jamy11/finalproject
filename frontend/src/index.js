@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {ClerkProvider } from '@clerk/clerk-react';
+import { ClerkProvider } from '@clerk/clerk-react';
+import SocketProvider from './socket/SocketProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const publishableKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
@@ -13,7 +14,9 @@ if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
 root.render(
   <React.StrictMode>
     <ClerkProvider publishableKey={publishableKey}>
+      <SocketProvider>
         <App />
+      </SocketProvider>
     </ClerkProvider>
   </React.StrictMode>
 );

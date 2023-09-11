@@ -14,6 +14,7 @@ import Companies from './pages/public/Companies';
 import Subscription from './pages/public/Subscription';
 import PostedJob from './pages/private/recruter/PostedJob';
 import SingleJobView from './pages/public/SingleJobView';
+import Chat from './pages/private/Chat';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
           <Route path='/feed/:id' element={<SingleJobView />} />
           <Route path='/companies' element={<Companies />} />
           <Route path='/subscription' element={<Subscription />} />
+          <Route path='/chat' element={<Chat />} />
 
 
 
